@@ -1,5 +1,5 @@
 MAINTAINER = "CS50 <sysadmins@cs50.harvard.edu>"
-NAME = adminer
+NAME = adminer50
 VERSION = 1.0.0
 
 .PHONY: clean
