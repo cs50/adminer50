@@ -26,11 +26,13 @@ class AdminerLogin50 {
         driver.add(option);
 
         // Re-add SQLite
+        /*
         option = document.createElement("option");
         option.text = "SQLite";
         option.value = "sqlite";
         option.selected = true;
         driver.add(option);
+        */
     }
 
     // Remove localhost placeholder
