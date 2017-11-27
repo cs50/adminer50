@@ -54,8 +54,8 @@ fi
 if [[ $URL_ONLY ]]; then
     echo "$URL"
 else
-	echo "Running Adminer at $URL"
-	echo -n "Exit with ctrl-c..."
+    echo "Running Adminer at $URL"
+    echo -n "Exit with ctrl-c..."
 fi
 
 # listen for ctrl-c
