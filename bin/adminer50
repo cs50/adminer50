@@ -11,8 +11,8 @@ function usage() {
 }
 
 # usage
-if [[ $# -eq 1 && "$1" == "--url-only" ]]; then
-    URL_ONLY=1
+if [[ $# -eq 1 && "$1" == "-q" || "$1" == "--quiet" ]]; then
+    QUEIT=1
 elif [[ $# -ne 0 ]]; then
     usage
 fi
@@ -51,7 +51,7 @@ if [ ! $ticks ]; then
     exit 1
 fi
 
-if [[ $URL_ONLY ]]; then
+if [[ $QUEIT ]]; then
     echo "$URL"
 else
     echo "Running Adminer at $URL"
