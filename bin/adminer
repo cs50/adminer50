@@ -41,7 +41,7 @@ pid=$!
 
 # wait at most 3 seconds for server to be listening
 ticks=6
-while [ ! curl -I http://localhost:$PORT &> /dev/null -a $ticks ]; do
+while ! curl -I http://localhost:$PORT &> /dev/null && [[ $ticks ]]; do
     sleep .5;
     ticks=$((ticks - 1))
 done
