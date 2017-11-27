@@ -9,7 +9,7 @@ clean:
 .PHONY: deb
 deb: clean
 	mkdir -p opt/cs50/adminer
-	cp -r adminer-4.3.1.php  bin  css  fonts  images  index.php  Makefile  plugins opt/cs50/adminer
+	cp -r adminer-4.3.1.php bin css fonts images index.php Makefile plugins opt/cs50/adminer
 	chmod -R a+rX opt
 	chmod -R a+x opt/cs50/adminer/bin/*
 	fpm \
