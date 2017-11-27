@@ -6,7 +6,7 @@ function echo_err() {
 }
 
 function usage() {
-    echo_err "Usage: adminer [--url-only]"
+    echo_err "Usage: adminer50 [--url-only]"
     exit 1
 }
 
@@ -28,7 +28,7 @@ URL="$HOSTNAME:$PORT"
 fuser --kill $PORT/tcp &> /dev/null
 
 if curl -I http://localhost:$PORT > /dev/null 2>&1; then
-    echo_err "Could not start adminer."
+    echo_err "Could not start adminer50."
     exit 1
 fi
 
@@ -54,7 +54,7 @@ fi
 if [[ $URL_ONLY ]]; then
     echo "$URL"
 else
-	echo "Running adminer at $URL"
+	echo "Running Adminer at $URL"
 	echo -n "Exit with ctrl-c..."
 fi
 
