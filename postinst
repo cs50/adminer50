@@ -1,0 +1,4 @@
+#!/bin/bash
+
+mkdir -p /opt/cs50/bin/
+ln -sf /opt/cs50/adminer/bin/adminer -t /opt/cs50/bin/
