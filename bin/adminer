@@ -5,6 +5,18 @@ function echo_err() {
     >&2 echo "$1"
 }
 
+function usage() {
+    echo_err "Usage: adminer [--url-only]"
+    exit 1
+}
+
+# usage
+if [[ $# -eq 1 && "$1" == "--url-only" ]]; then
+    URL_ONLY=1
+elif [[ $# -ne 0 ]]; then
+    usage
+fi
+
 if command -v hostname50 > /dev/null 2>&1; then
     HOSTNAME=$(hostname50 --protocol)
 fi
@@ -39,8 +51,12 @@ if [ ! $ticks ]; then
     exit 1
 fi
 
-echo "Running adminer at $URL"
-echo -n "Exit with ctrl-c..."
+if [[ $URL_ONLY ]]; then
+    echo "$URL"
+else
+	echo "Running adminer at $URL"
+	echo -n "Exit with ctrl-c..."
+fi
 
 # listen for ctrl-c
 # http://stackoverflow.com/a/5722850
