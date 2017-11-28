@@ -1,0 +1,66 @@
+#!/bin/bash
+
+# echos to stderr
+function echo_err() {
+    >&2 echo "$1"
+}
+
+function usage() {
+    echo_err "Usage: adminer50 [--url-only]"
+    exit 1
+}
+
+# usage
+if [[ $# -eq 1 && "$1" == "-q" || "$1" == "--quiet" ]]; then
+    QUEIT=1
+elif [[ $# -ne 0 ]]; then
+    usage
+fi
+
+if command -v hostname50 > /dev/null 2>&1; then
+    HOSTNAME=$(hostname50 --protocol)
+fi
+
+PORT="8082"
+URL="$HOSTNAME:$PORT"
+
+# kill any process listening on $PORT
+fuser --kill $PORT/tcp &> /dev/null
+
+if curl -I http://localhost:$PORT > /dev/null 2>&1; then
+    echo_err "Could not start adminer50."
+    exit 1
+fi
+
+# http://stackoverflow.com/q/4774054
+dir=$(dirname $(dirname $(readlink -f "$0")))
+
+# serve copy
+php -S 0.0.0.0:$PORT -t $dir > /dev/null 2>&1 &
+pid=$!
+
+# wait at most 3 seconds for server to be listening
+ticks=6
+while ! curl -I http://localhost:$PORT &> /dev/null && [[ $ticks ]]; do
+    sleep .5;
+    ticks=$((ticks - 1))
+done
+
+if [ ! $ticks ]; then
+    echo_err "Timed out."
+    exit 1
+fi
+
+if [[ $QUEIT ]]; then
+    echo "$URL"
+else
+    echo "Running Adminer at $URL"
+    echo -n "Exit with ctrl-c..."
+fi
+
+# listen for ctrl-c
+# http://stackoverflow.com/a/5722850
+trap "{ kill -9 $pid &>/dev/null; echo; }" EXIT
+
+# wait for server to exit
+wait $pid &> /dev/null
